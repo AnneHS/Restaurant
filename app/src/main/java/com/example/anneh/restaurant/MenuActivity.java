@@ -1,7 +1,6 @@
 package com.example.anneh.restaurant;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,46 +9,44 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-
 import java.util.ArrayList;
 
-public class CategoriesActivity extends AppCompatActivity implements CategoriesRequest.Callback{
-    private ListAdapter adapter;
+public class MenuActivity extends AppCompatActivity implements MenuRequest.Callback {
+    private MenuAdapter adapter;
     private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categories);
+        setContentView(R.layout.activity_menu);
 
-        Log.d("app", "onCreate: ");
+        Intent intent = getIntent();
+        String category = (String) intent.getStringExtra("category");
+        MenuRequest request = new MenuRequest(this, category);
+        request.getItems(MenuActivity.this); // url meegeven?
 
-        CategoriesRequest request = new CategoriesRequest(getApplicationContext());
-        request.getCategories(CategoriesActivity.this);
+        ListView listView = (ListView) findViewById(R.id.menu_list);
 
         // Toast test
-        Toast.makeText(this, "Started", Toast.LENGTH_SHORT).show();
-
-
+        Toast.makeText(this, "Started MenuActivity", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void gotCategories(ArrayList<String> categories) {
-        Toast.makeText(this, categories.get(0), Toast.LENGTH_LONG).show();
+    public void gotItems(ArrayList<MenuItem> items) {
+        Toast.makeText(this, "gotItems" , Toast.LENGTH_LONG).show();
+        // items.get(0)
 
         // create listview with array adapter: https://medium.com/mindorks/custom-array-adapters-made-easy-b6c4930560dd
-        ListView listView = (ListView) findViewById(R.id.list);
-        adapter = new ListAdapter(this, categories);
+        ListView listView = (ListView) findViewById(R.id.menu_list);
+        adapter = new MenuAdapter(this, items);
         listView.setAdapter(adapter);
 
         // Set listview listener
-        listView.setOnItemClickListener(new ListViewClickListener());
+        listView.setOnItemClickListener(new MenuActivity.ListViewClickListener());
     }
 
     @Override
-    public void gotCategoriesError(String message) {
+    public void gotItemsError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
@@ -59,14 +56,12 @@ public class CategoriesActivity extends AppCompatActivity implements CategoriesR
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
             // fires an Intent to the third activity that shows the entry details
-            Intent intent = new Intent(CategoriesActivity.this, MenuActivity.class);
+            Intent intent = new Intent(MenuActivity.this, MenuItemActivity.class);
 
             // Get selected category
-            String categoryClicked = (String) adapterView.getItemAtPosition(position);
-            intent.putExtra("category", categoryClicked);
+            MenuItem dishClicked = (MenuItem) adapterView.getItemAtPosition(position);
+            intent.putExtra("dish", dishClicked);
             startActivity(intent);
         }
     }
-
-
 }
