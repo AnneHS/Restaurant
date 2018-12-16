@@ -1,4 +1,4 @@
-## Restaurant(Android App)
+## Restaurant (Android App)
 
 
 *Anne Hoogerduijn Strating*
@@ -6,5 +6,12 @@
 
 An app that will help users look at a restaurant’s menu and view the details of the items in the menu.
 
-![menu](app/doc/menu.PNG)
-![dish](app/doc/dish.PNG)
+<p align="center">
+  <img src="https://github.com/AnneHS/Restaurant/blob/master/app/doc/categories.png" height="5%" width="25%"/> <img
+  src="https://github.com/AnneHS/Restaurant/blob/master/app/doc/menuItems.png" height="5%" width="25%"/> <img
+  src="https://github.com/AnneHS/Restaurant/blob/master/app/doc/item.png" height="5%" width="25%"/> 
+  
+  
+  <img="https://github.com/AnneHS/Restaurant/blob/master/app/doc/landscapeItems.png" height="5%" width="50%"/> <img
+  src="https://github.com/AnneHS/Restaurant/blob/master/app/doc/item.png" height="5%" width="50%"/>
+</p>
