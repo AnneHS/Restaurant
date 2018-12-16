@@ -34,40 +34,33 @@ public class MenuRequest implements Response.Listener<JSONObject>, Response.Erro
         this.category = category;
     }
 
-    //
+    // Attempt to retrieve menu items from API
     public void getItems(MenuRequest.Callback activity){
-        // attempt to retrieve the items from the API
-        // notify activity that instantiated the request that it is done through callback = activity
-        JsonObjectRequest jsonObjectRequest;
-        // save activity as instance variable
+
         callbackActivity = activity;
+        JsonObjectRequest jsonObjectRequest;
 
         // Create a net RequestQueue
         RequestQueue queue = Volley.newRequestQueue(instance);
         String url = String.format("https://resto.mprog.nl/menu?category=%s", category);
-
-        Log.d("URL", url);
         jsonObjectRequest = new JsonObjectRequest(url, null, this, this);
         queue.add(jsonObjectRequest);
 
     }
 
-    // callback method --> JSONObjectRequest = success
+    // Callback method: JSONObjectRequest = success
     @Override
     public void onResponse(JSONObject response) {
-        Log.d("MenuRequest.java", "onResponse");
 
-        // ArrayList <String> categories = new ArrayList<String>();
         JSONArray jsonItems;
         ArrayList <MenuItem> items = new ArrayList<MenuItem>();
         String name, description,  imageUrl, category;
         float price;
-        int id;
 
         try {
-            // { "items:" [{a:x, b:y, c:z},{},{}]}
 
-            // Get array of menu items: https://stackoverflow.com/questions/38574925/retrieving-nested-arrays-values-with-json-java
+            // Get array of menu items
+            // https://stackoverflow.com/questions/38574925/retrieving-nested-arrays-values-with-json-java
             jsonItems =  (JSONArray) response.get("items");
             for (int i = 0; i < jsonItems.length(); i++) {
 
@@ -80,13 +73,12 @@ public class MenuRequest implements Response.Listener<JSONObject>, Response.Erro
                     description = menuItem.get("description").toString();
                     price = Float.parseFloat(menuItem.get("price").toString()); // parseFloat: https://stackoverflow.com/questions/10735679/how-to-convert-string-into-float-value-in-android
                     imageUrl = menuItem.get("image_url").toString();
-                    id = Integer.parseInt(menuItem.get("id").toString()); // https://www.mkyong.com/java/java-convert-string-to-int/
                     name = menuItem.get("name").toString();
 
-                    // construct MenuItem
+                    // Construct MenuItem
                     MenuItem item = new MenuItem(name, description, imageUrl, price, category);
 
-                    // add item to list of MenuItems
+                    // Add item to list of MenuItems
                     items.add(item);
                 }
                 catch (JSONException e) {
@@ -100,9 +92,8 @@ public class MenuRequest implements Response.Listener<JSONObject>, Response.Erro
             Log.e("MenuRequest.java", "Can't get jsonItems");
         }
 
-
+        // Pass menuItems back to MenuActivity
         try {
-            // pass menuItems back to MenuActivity
             callbackActivity.gotItems(items);
         }
         catch (Exception e) {
@@ -111,7 +102,7 @@ public class MenuRequest implements Response.Listener<JSONObject>, Response.Erro
 
     }
 
-    // callback method --> JSONObjectRequest = error --> report to CategoriesActivity
+    // Callback method: JSONObjectRequest = error
     @Override
     public void onErrorResponse(VolleyError error) {
         Log.d("CategoriesRequest.java", "ErrorResponse");

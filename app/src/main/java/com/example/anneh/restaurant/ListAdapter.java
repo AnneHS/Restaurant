@@ -19,7 +19,7 @@ public class ListAdapter extends ArrayAdapter<String> {
     private Context mContext;
     ArrayList <String> categoryList = new ArrayList<String>();
 
-    // constructor
+    // Constructor
     public ListAdapter(@NonNull Context context, ArrayList<String> list) {
         super(context, 0, list);
         mContext = context;
@@ -30,16 +30,15 @@ public class ListAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-       //  View listItem = convertView;
+
         if (convertView == null)
             convertView = LayoutInflater.from(mContext).inflate(R.layout.row, parent,false);
 
-        String currentItem = categoryList.get(position);
-
+        // Get item for current row
         TextView item = (TextView) convertView.findViewById(R.id.list_item);
+        String currentItem = categoryList.get(position);
         item.setText(currentItem);
 
-        // return super.getView(position, convertView, parent);
         return convertView;
     }
 }

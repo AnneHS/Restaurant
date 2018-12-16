@@ -22,28 +22,25 @@ public class CategoriesRequest implements Response.Listener<JSONObject>, Respons
     private Context instance;
     Callback callbackActivity;
 
-    // interface
+    // Interface
     public interface Callback {
         void gotCategories(ArrayList<String> categories);
         void gotCategoriesError(String message);
     }
 
-    // constructor
+    // Constructor
     public CategoriesRequest(Context context) {
 
         this.instance = context;
-
     }
 
-    //
+    // Attempt to retrieve the categories from the API
+    // notify activity that instantiated the request that it is done through callback = activity
     public void getCategories(Callback activity){
-        // attempt to retrieve the categories from the API
-        // notify activity that instantiated the request that it is done through callback = activity
 
-        // save activity as instance variable
         callbackActivity = activity;
 
-        // Create a net RequestQueue
+        // Create a new RequestQueue
         RequestQueue queue = Volley.newRequestQueue(instance);
 
         // Create JsonObjectRequest (date from API = JSON object) (url, data send, listeners that will handle te response (this class))
@@ -52,7 +49,7 @@ public class CategoriesRequest implements Response.Listener<JSONObject>, Respons
 
     }
 
-    // callback method --> JSONObjectRequest = success
+    // Callback method: JSONObjectRequest = success -> report to CategoriesActivity
     @Override
     public void onResponse(JSONObject response) {
 
@@ -61,8 +58,11 @@ public class CategoriesRequest implements Response.Listener<JSONObject>, Respons
         JSONArray jsonCategories;
 
         try {
-            jsonCategories = response.getJSONArray("categories"); // https://processing.org/reference/JSONObject_getJSONArray_.html
+            // Get jsonArray
+            // https://processing.org/reference/JSONObject_getJSONArray_.html
+            jsonCategories = response.getJSONArray("categories");
 
+            // Add category to categories array
             for (int i = 0; i < jsonCategories.length(); i++) {
 
                 try {
@@ -80,7 +80,7 @@ public class CategoriesRequest implements Response.Listener<JSONObject>, Respons
 
 
         try {
-            // pass categories back CategoriesActivity
+            // Pass categories back CategoriesActivity
             callbackActivity.gotCategories(categories);
         }
         catch (Exception e) {
@@ -89,12 +89,11 @@ public class CategoriesRequest implements Response.Listener<JSONObject>, Respons
 
     }
 
-    // callback method --> JSONObjectRequest = error --> report to CategoriesActivity
+    // Callback method : JSONObjectRequest = error -> report to CategoriesActivity
     @Override
     public void onErrorResponse(VolleyError error) {
         Log.d("CategoriesRequest.java", "ErrorResponse");
         callbackActivity.gotCategoriesError(error.getMessage());
-
     }
 
 

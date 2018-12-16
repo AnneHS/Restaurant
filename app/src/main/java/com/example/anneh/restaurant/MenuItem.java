@@ -16,7 +16,6 @@ public class MenuItem implements Serializable {
     }
 
     // Getters
-
     public String getName() {
         return name;
     }
@@ -29,13 +28,10 @@ public class MenuItem implements Serializable {
         return imageUrl;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
     public float getPrice() {
         return price;
     }
+
 
     // Setters
     public void setName(String name) {
@@ -44,14 +40,6 @@ public class MenuItem implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public void setPrice(float price) {

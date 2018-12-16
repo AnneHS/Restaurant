@@ -17,29 +17,22 @@ import java.util.ArrayList;
 
 public class CategoriesActivity extends AppCompatActivity implements CategoriesRequest.Callback{
     private ListAdapter adapter;
-    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
 
-        Log.d("app", "onCreate: ");
-
+        // Start request for categories
         CategoriesRequest request = new CategoriesRequest(getApplicationContext());
         request.getCategories(CategoriesActivity.this);
-
-        // Toast test
-        Toast.makeText(this, "Started", Toast.LENGTH_SHORT).show();
-
-
     }
 
     @Override
     public void gotCategories(ArrayList<String> categories) {
         Toast.makeText(this, categories.get(0), Toast.LENGTH_LONG).show();
 
-        // create listview with array adapter: https://medium.com/mindorks/custom-array-adapters-made-easy-b6c4930560dd
+        // Create listview with array adapter: https://medium.com/mindorks/custom-array-adapters-made-easy-b6c4930560dd
         ListView listView = (ListView) findViewById(R.id.list);
         adapter = new ListAdapter(this, categories);
         listView.setAdapter(adapter);
@@ -58,7 +51,7 @@ public class CategoriesActivity extends AppCompatActivity implements CategoriesR
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
-            // fires an Intent to the third activity that shows the entry details
+            // Fires an Intent to the third activity that shows the entry details
             Intent intent = new Intent(CategoriesActivity.this, MenuActivity.class);
 
             // Get selected category

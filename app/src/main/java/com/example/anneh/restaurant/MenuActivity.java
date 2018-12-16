@@ -20,23 +20,19 @@ public class MenuActivity extends AppCompatActivity implements MenuRequest.Callb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        // Start request for menu items corresponding with selected category
         Intent intent = getIntent();
         String category = (String) intent.getStringExtra("category");
         MenuRequest request = new MenuRequest(this, category);
-        request.getItems(MenuActivity.this); // url meegeven?
-
-        ListView listView = (ListView) findViewById(R.id.menu_list);
-
-        // Toast test
-        Toast.makeText(this, "Started MenuActivity", Toast.LENGTH_SHORT).show();
+        request.getItems(MenuActivity.this);
     }
 
     @Override
     public void gotItems(ArrayList<MenuItem> items) {
         Toast.makeText(this, "gotItems" , Toast.LENGTH_LONG).show();
-        // items.get(0)
 
-        // create listview with array adapter: https://medium.com/mindorks/custom-array-adapters-made-easy-b6c4930560dd
+        // Create listview with array adapter
+        // https://medium.com/mindorks/custom-array-adapters-made-easy-b6c4930560dd
         ListView listView = (ListView) findViewById(R.id.menu_list);
         adapter = new MenuAdapter(this, items);
         listView.setAdapter(adapter);
@@ -55,7 +51,7 @@ public class MenuActivity extends AppCompatActivity implements MenuRequest.Callb
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
-            // fires an Intent to the third activity that shows the entry details
+            // Fires an Intent to the third activity that shows the entry details
             Intent intent = new Intent(MenuActivity.this, MenuItemActivity.class);
 
             // Get selected category

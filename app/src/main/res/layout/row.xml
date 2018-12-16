@@ -8,6 +8,10 @@
         android:id="@+id/list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:padding="10dp"
         android:text="TextView"
-        android:textSize="30dp" />
+        android:textAlignment="center"
+        android:textSize="26dp"
+        android:textStyle="bold" />
 </LinearLayout>

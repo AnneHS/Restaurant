@@ -18,15 +18,14 @@ import java.util.ArrayList;
 
 public class MenuAdapter extends ArrayAdapter<MenuItem> {
     private Context mContext;
-    ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
+    ArrayList<MenuItem> menuItems;
 
-    // constructor
+    // Constructor
     public MenuAdapter(@NonNull Context context, ArrayList<MenuItem> items) {
         super(context, 0, items);
         mContext = context;
         menuItems = items;
     }
-
 
     @NonNull
     @Override
@@ -39,16 +38,20 @@ public class MenuAdapter extends ArrayAdapter<MenuItem> {
         // Get Menu item for current position
         MenuItem currentItem = menuItems.get(position);
 
+        // Get reference to views
         TextView dish = (TextView) convertView.findViewById(R.id.dish);
         TextView price = (TextView) convertView.findViewById(R.id.price);
         ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
 
-        //
+        // Set dish name and price for current dish
         dish.setText(currentItem.getName());
-        price.setText(Float.toString(currentItem.getPrice())); // consider String # format
+        String priceString = String.format("$ %s", Float.toString(currentItem.getPrice()));
+        price.setText(priceString);
+
+        // Load dish image into ImageView
         Picasso.get().load(currentItem.getImageUrl()).into(image);
 
-        // return super.getView(position, convertView, parent);
+        // Return convertView to MenuActivity
         return convertView;
     }
 }
